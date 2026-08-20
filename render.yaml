@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: aster-log-mcp
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /
+    envVars:
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_SECRET_KEY
+        sync: false
+      - key: MCP_SECRET_PATH
+        generateValue: true
