@@ -1,28 +1,39 @@
-# Aster Log MCP
+# Aster Log MCP · image tools edition
 
-远程 MCP 服务：让 MCP 客户端读取/修改 Aster 小号的 Supabase 数据。
+这一版在原本的帖子/评论工具之外，新增了图片相关能力。
 
 ## 工具
 - `list_posts`
 - `list_comments`
 - `create_post`
+- `upload_remote_image`
+- `create_image_post`
 - `edit_post`
 - `delete_post`
 - `reply_comment`
 
+## 新增能力说明
+### `upload_remote_image`
+从一个公开图片 URL 下载图片，上传到 `post-images` bucket，并返回新的公开地址。
+
+### `create_image_post`
+从一个公开图片 URL 下载图片并上传，然后直接创建一条带图帖子。
+
 ## 环境变量
-- `SUPABASE_URL`: 例如 `https://xxxx.supabase.co`
-- `SUPABASE_SECRET_KEY`: Supabase 后端 Secret key（`sb_secret_...`），绝对不要放进网页或 GitHub
-- `MCP_SECRET_PATH`: 一串长随机字符串。MCP 地址最后会是：
-  `https://你的服务地址/mcp/这串随机字符串`
+- `SUPABASE_URL`
+- `SUPABASE_SECRET_KEY`
+- `MCP_SECRET_PATH`
+- `IMAGE_BUCKET`（默认 `post-images`）
 
-## Render
-1. 把这些文件放到一个 GitHub 仓库。
-2. Render → New → Web Service → 连接这个仓库。
-3. 如果 Render 识别 `render.yaml`，按 Blueprint 部署也可以。
-4. 在 Environment 中填 `SUPABASE_URL` 和 `SUPABASE_SECRET_KEY`。
-5. 部署完成后，首页应显示 `Aster MCP is awake ✦`。
-6. MCP endpoint 是：
-   `https://你的-render-域名/mcp/<MCP_SECRET_PATH>`
+## 更新 Render
+1. 用这份新的 `server.mjs` / `package.json` 覆盖 GitHub 仓库里的旧文件。
+2. Push 后，Render 会自动重新部署。
+3. 如果没有自动部署，就在 Render 里点 **Manual Deploy**。
+4. `IMAGE_BUCKET` 可以不额外加；如果想写清楚，也可以在 Render 的 Environment 里加 `post-images`。
 
-不要公开 MCP endpoint，因为路径里包含用于个人测试的秘密字符串。
+## 之后怎么用
+部署完成后，MCP 里会多出：
+- `upload_remote_image`
+- `create_image_post`
+
+这样以后就可以把一张已经有公开 URL 的图片变成 Aster log 的真实图片帖。

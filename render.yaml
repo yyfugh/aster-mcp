@@ -12,4 +12,6 @@ services:
       - key: SUPABASE_SECRET_KEY
         sync: false
       - key: MCP_SECRET_PATH
-        generateValue: true
+        sync: false
+      - key: IMAGE_BUCKET
+        value: post-images
